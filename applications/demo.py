@@ -15,6 +15,7 @@ from lifting.utils import plot_pose
 import cv2
 import matplotlib.pyplot as plt
 from os.path import dirname, realpath
+import time
 
 DIR_PATH = dirname(realpath(__file__))
 PROJECT_PATH = realpath(DIR_PATH + '/..')
@@ -25,8 +26,9 @@ PROB_MODEL_PATH = SAVED_SESSIONS_DIR + '/prob_model/prob_model_params.mat'
 
 
 def main():
+    start = time.time()
     image = cv2.imread(IMAGE_FILE_PATH)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # conversion to rgb
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # conversion to rgb
 
     # create pose estimator
     image_size = image.shape
@@ -39,6 +41,8 @@ def main():
     try:
         # estimation
         pose_2d, visibility, pose_3d = pose_estimator.estimate(image)
+        timeElapsed = time.time()-start
+        print("Execution time in Seconds: ",timeElapsed)
 
         # Show 2D and 3D poses
         display_results(image, pose_2d, visibility, pose_3d)
